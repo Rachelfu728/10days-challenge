@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>10天・6個量測挑戰</title>
+  <meta name="description" content="10天完成6個量測，一個一個完成就好。Fit21風格個人行動挑戰工具。">
+  <meta name="theme-color" content="#163E32">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%23163E32%22/><text x=%2250%22 y=%2260%22 font-size=%2242%22 text-anchor=%22middle%22 fill=%22%23C89E5B%22>🎯</text></svg>">
+</head>
+<body>
+  <div class="app-shell">
+    
+    <!-- 頂部 Header -->
+    <header class="app-header">
+      <div class="header-top-row">
+        <span class="badge-tag">
+          <span>🎯</span> 個人量測專案
+        </span>
+        <span class="badge-tag" id="challenge-dates-tag">
+          10/6 → 10/15
+        </span>
+      </div>
+      <h1 class="app-title">10天・6個量測挑戰</h1>
+      <p class="app-subtitle">10天完成6個量測，一個一個完成就好。</p>
+    </header>
+
+    <!-- 主要內容區 -->
+    <main class="main-content">
+      
+      <!-- 一、首頁 3 秒英雄視覺區 (倒數 × 目標 × 3大核心指標) -->
+      <section class="hero-dashboard">
+        <div class="hero-top-bar">
+          <div class="day-badge-large">
+            <span class="day-curr" id="day-curr-num">Day 1</span>
+            <span class="day-total">/ 10</span>
+          </div>
+          <span class="challenge-dates">2026/10/6 ～ 10/15</span>
+        </div>
+
+        <!-- 醒目倒數區 -->
+        <div class="countdown-box">
+          <span>⏳ 挑戰倒數</span>
+          <span id="countdown-text">距離挑戰結束還有 <span class="accent-txt">10 天</span></span>
+        </div>
+
+        <!-- 3 大超大核心數字卡片 (3秒直覺看懂) -->
+        <div class="metrics-row">
+          <div class="metric-card-mini">
+            <span class="metric-label">剩餘天數</span>
+            <span class="metric-value" id="metric-days-left">10 天</span>
+            <span class="metric-sub" id="metric-days-sub">穩住節奏</span>
+          </div>
+          <div class="metric-card-mini highlight-gold">
+            <span class="metric-label">已完成</span>
+            <span class="metric-value" id="metric-completed">0 / 6</span>
+            <span class="metric-sub" id="metric-completed-sub">達成率 0%</span>
+          </div>
+          <div class="metric-card-mini highlight-orange">
+            <span class="metric-label">還差</span>
+            <span class="metric-value" id="metric-remaining">6 個</span>
+            <span class="metric-sub" id="metric-remaining-sub">今天完成1個</span>
+          </div>
+        </div>
+
+        <!-- 6 個量測圖示視覺化進度區 -->
+        <div class="targets-visual-wrap">
+          <div class="targets-header">
+            <span class="targets-title">
+              <span>🎯</span> 目標：6 個身體組成量測
+            </span>
+            <span class="targets-stat" id="progress-stat-text">已完成 0 / 6，還差 6 個！</span>
+          </div>
+
+          <!-- 6 個圓圈節點 (○ ○ ○ ○ ○ ○ ➜ ● ● ○ ○ ○ ○) -->
+          <div class="six-circles-row" id="six-circles-row">
+            <!-- JS 動態生成 6 個圓圈節點 -->
+          </div>
+
+          <!-- 精緻進度條 -->
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progress-bar-fill"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 二、智慧進度提醒與燈號 -->
+      <section class="smart-status-card" id="smart-status-card">
+        <div class="status-header-row">
+          <div class="status-indicator-badge green" id="status-indicator-badge">
+            <span class="status-dot"></span>
+            <span id="status-badge-text">🟢 進度正常</span>
+          </div>
+          <span class="status-category-label">節奏評估系統</span>
+        </div>
+        <div class="smart-message-body" id="smart-message-main">
+          很好，照這個節奏走，6個一定完成。
+        </div>
+        <div class="smart-message-action" id="smart-message-sub">
+          不用急，專注在當下，一個一個完成就好。
+        </div>
+      </section>
+
+      <!-- 三、成熟溫暖每日鼓勵語 -->
+      <section class="quote-card">
+        <div class="quote-top">
+          <span class="quote-tag">🌱 今日沉思與行動</span>
+          <button class="quote-cycle-btn" id="quote-cycle-btn" title="切換下一句鼓勵語">
+            <span>換一句</span> ↺
+          </button>
+        </div>
+        <div class="quote-text" id="daily-quote-text">
+          「不用一次做到很多，今天完成一個就好。」
+        </div>
+      </section>
+
+      <!-- 四、10天行動視覺日曆 (10/6 ~ 10/15) -->
+      <section class="section-card">
+        <div class="section-title-row">
+          <div class="section-title">
+            <span>📅</span> 10 天行動日曆
+          </div>
+          <span class="section-badge-right">點擊任一日可補登/檢視</span>
+        </div>
+        <div class="ten-days-grid" id="ten-days-grid">
+          <!-- JS 動態生成 10/6 ~ 10/15 卡片 -->
+        </div>
+      </section>
+
+      <!-- 五、定時提醒中心 (10:00 & 16:00) -->
+      <section class="notification-card">
+        <div class="section-title-row">
+          <div class="section-title">
+            <span>⏰</span> 每日兩次輕量提醒
+          </div>
+          <span class="section-badge-right">不打擾・重在行動</span>
+        </div>
+        
+        <div class="notification-slots-row">
+          <div class="slot-box" id="slot-morning">
+            <div class="slot-time">上午 10:00 晨間啟動</div>
+            <div class="slot-desc" id="slot-morning-desc">
+              今天的6個量測挑戰開始囉，目前完成 0/6。
+            </div>
+          </div>
+          <div class="slot-box" id="slot-afternoon">
+            <div class="slot-time">下午 16:00 行動溫馨提醒</div>
+            <div class="slot-desc" id="slot-afternoon-desc">
+              今天還有時間，完成一個，就離目標更近一步。
+            </div>
+          </div>
+        </div>
+
+        <div class="notification-status-bar">
+          <span id="notif-permission-status">支援瀏覽器/手機通知功能</span>
+          <button class="notif-btn-sm" id="btn-notif-action">開啟提醒</button>
+        </div>
+      </section>
+
+      <!-- 六、量測紀錄清單 (支援編輯/刪除，防止手誤) -->
+      <section class="section-card">
+        <div class="section-title-row">
+          <div class="section-title">
+            <span>📋</span> 量測詳細紀錄
+          </div>
+          <span class="section-badge-right" id="records-total-badge">0 / 6</span>
+        </div>
+        <div class="records-list" id="records-list-container">
+          <!-- JS 動態渲染歷史紀錄 -->
+        </div>
+      </section>
+
+      <!-- 七、預覽模式與時間切換器 (極度貼心：方便使用者體驗 10/6~10/15 各階段狀態) -->
+      <div class="date-simulation-strip">
+        <div class="sim-header">
+          <span>🛠️ 測試預覽模式 (切換不同天數預覽智慧燈號)</span>
+          <span style="font-size: 10px; color: var(--text-muted);">今天真實日期：2026/10/05</span>
+        </div>
+        <div class="sim-buttons-row">
+          <button class="sim-btn active" data-date="real">跟隨真實時間</button>
+          <button class="sim-btn" data-date="2026-10-06">Day 1 (10/6)</button>
+          <button class="sim-btn" data-date="2026-10-08">Day 3 (10/8)</button>
+          <button class="sim-btn" data-date="2026-10-12">Day 7 (10/12)</button>
+          <button class="sim-btn" data-date="2026-10-14">Day 9 (10/14)</button>
+          <button class="sim-btn" data-date="2026-10-15">Day 10 (10/15)</button>
+        </div>
+      </div>
+
+      <!-- 八、底部設定與安全操作 -->
+      <footer class="app-footer">
+        <div class="footer-btn-row">
+          <button class="btn-ghost-sm" id="btn-export-data">匯出備份紀錄 💾</button>
+          <button class="btn-ghost-sm danger" id="btn-reset-challenge">重新開始挑戰 ↺</button>
+        </div>
+        <p style="font-size: 11px; color: var(--text-muted); text-align: center;">
+          10天・6個量測挑戰 × Fit21 陪伴你每天前進一步
+        </p>
+      </footer>
+
+    </main>
+
+    <!-- 固定在底部的大型行動按鈕 (FAB) -->
+    <div class="action-bottom-bar">
+      <button class="giant-action-btn" id="giant-add-btn">
+        <span class="btn-icon-plus">＋</span>
+        <span>今天完成 1 個量測</span>
+      </button>
+    </div>
+
+    <!-- 彈窗：新增 / 修改量測紀錄 -->
+    <div class="modal-overlay" id="record-modal-overlay">
+      <div class="modal-bottom-sheet">
+        <div class="sheet-handle"></div>
+        <div class="modal-title-row">
+          <div>
+            <h3 class="modal-main-title" id="record-modal-title">記錄一次身體組成量測</h3>
+            <p class="modal-sub-title">完成比完美重要，每一位都是邁向目標的基石</p>
+          </div>
+          <button class="modal-close-btn" id="modal-close-btn" aria-label="關閉">✕</button>
+        </div>
+
+        <form id="record-form">
+          <div class="form-group">
+            <label class="form-label" for="record-date-input">完成日期</label>
+            <input type="date" id="record-date-input" class="form-input" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="record-person-input">
+              量測對象 <span class="optional-tag">(可選填姓名或暱稱)</span>
+            </label>
+            <input type="text" id="record-person-input" class="form-input" placeholder="例如：媽媽、陳大哥、好朋友小美">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="record-note-input">
+              備註 <span class="optional-tag">(可選填)</span>
+            </label>
+            <textarea id="record-note-input" class="form-textarea" rows="2" placeholder="例如：InBody 量測、肌肉量增加 0.4kg、已約定諮詢"></textarea>
+          </div>
+
+          <button type="submit" class="form-submit-btn" id="record-submit-btn">
+            完成！算我一個 🎉
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- 彈窗：全滿 6 個量測大型榮譽慶祝卡 -->
+    <div class="modal-overlay" id="celebration-modal-overlay">
+      <div class="modal-bottom-sheet" style="border-radius: var(--radius-lg); text-align: center;">
+        <div class="sheet-handle"></div>
+        <div class="celebration-card-content">
+          <div class="celebration-badge-hero">🏆</div>
+          <h2 class="celebration-main-title">🎉 挑戰完成！</h2>
+          <p class="celebration-quote">「10天，6個量測，我做到了！」</p>
+          
+          <div class="celebration-stats-grid">
+            <div class="celeb-stat-item">
+              <span class="celeb-stat-label">完成日期</span>
+              <span class="celeb-stat-val" id="celeb-date">2026-10-10</span>
+            </div>
+            <div class="celeb-stat-item">
+              <span class="celeb-stat-label">達成時間</span>
+              <span class="celeb-stat-val" id="celeb-days-used">第 5 天達成</span>
+            </div>
+            <div class="celeb-stat-item" style="grid-column: span 2;">
+              <span class="celeb-stat-label">量測總成果</span>
+              <span class="celeb-stat-val" id="celeb-records-summary">6 個量測 (100% 達成)</span>
+            </div>
+          </div>
+
+          <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 18px;">
+            每一次量測，都是一次認識新需求的機會。<br>
+            你做到了你給自己的承諾，為自己喝采！
+          </p>
+
+          <button class="form-submit-btn" id="celeb-close-btn" style="background: linear-gradient(135deg, #163E32 0%, #102F26 100%);">
+            太棒了！繼續保持卓越 ✨
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast 通知浮動提示 -->
+    <div class="toast-notice" id="toast-notice">太棒了！已完成 1 個量測 🎉</div>
+
+    <!-- 彩帶 Canvas 粒子畫布 -->
+    <canvas id="confetti-canvas"></canvas>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
